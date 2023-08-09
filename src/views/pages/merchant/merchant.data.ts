@@ -4,24 +4,20 @@ import { FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '名称',
-    dataIndex: 'name',
-  },
-  {
-    title: '地址',
-    dataIndex: 'addr',
-  },
-  {
-    title: '图片',
-    dataIndex: 'img',
+    title: '商户名',
+    dataIndex: 'username',
   },
   {
     title: '余额',
-    dataIndex: 'balance',
+    dataIndex: 'wallet',
   },
   {
     title: '状态',
     dataIndex: 'state',
+  },
+  {
+    title: '角色',
+    dataIndex: 'role',
   },
   {
     title: '创建时间',
@@ -37,8 +33,8 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'walletAddr',
-    label: '钱包地址',
+    field: 'username',
+    label: '商户名',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -46,36 +42,50 @@ export const searchFormSchema: FormSchema[] = [
 
 export const UsdtModalFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    label: '名称',
+    field: 'username',
+    label: '商户名',
     component: 'Input',
     rules: [
       {
         required: true,
-        message: '请输入名称',
+        message: '请输入商户名',
       },
     ],
   },
   {
-    field: 'addr',
-    label: '地址',
+    field: 'password',
+    label: '密码',
     component: 'Input',
     rules: [
       {
         required: true,
-        message: '请输入地址',
+        message: '请输入密码',
       },
     ],
   },
-  // {
-  //   field: 'imgName',
-  //   label: '图片',
-  //   component: 'Upload',
-  //   rules: [
-  //     {
-  //       required: true,
-  //       message: '请上传图片',
-  //     },
-  //   ],
-  // },
+  {
+    field: 'role',
+    label: '角色',
+    component: 'Select',
+    rules: [
+      {
+        required: true,
+        message: '请选择角色',
+      },
+    ],
+    componentProps: {
+      options: [
+        {
+          label: '管理员',
+          value: '1',
+          key: '1',
+        },
+        {
+          label: '商户',
+          value: '2',
+          key: '2',
+        },
+      ],
+    },
+  },
 ];

@@ -1,9 +1,6 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
-      <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增USDT钱包</a-button>
-      </template>
       <template #bodyCell="{ column, record, text }">
         <template v-if="column.key === 'balance'">
           <div>
@@ -15,55 +12,48 @@
         <template v-else-if="column.key === 'action'">
           <TableAction
             :actions="[
-              // {
-              //   icon: 'clarity:info-standard-line',
-              //   tooltip: '查看用户详情',
-              //   onClick: handleView.bind(null, record),
-              // },
               {
                 icon: 'clarity:note-edit-line',
-                tooltip: '编辑',
+                label: '充值记录',
                 onClick: handleEdit.bind(null, record),
               },
               {
-                icon: 'ant-design:delete-outlined',
-                color: 'error',
-                tooltip: '删除',
-                popConfirm: {
-                  title: '是否确认删除',
-                  placement: 'left',
-                  confirm: handleDelete.bind(null, record),
-                },
+                icon: 'clarity:note-edit-line',
+                label: '资金变更',
+                onClick: handleEdit.bind(null, record),
+              },
+              {
+                icon: 'clarity:note-edit-line',
+                label: '状态变更',
+                onClick: handleEdit.bind(null, record),
               },
             ]"
           />
         </template>
       </template>
     </BasicTable>
-    <UsdtModal @register="registerModal" @success="handleSuccess" />
+    <PlayerRechargeModal @register="registerModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts">
   import { defineComponent, reactive } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import Icon from '/@/components/Icon/index';
-  import { getUsdtListApi } from '/@/api/page';
+  import { getPlayerListApi } from '/@/api/page';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
-  import UsdtModal from './UsdtModal.vue';
-  import { useGo } from '/@/hooks/web/usePage';
-  import { columns, searchFormSchema } from './usdt.data';
+  import PlayerRechargeModal from './PlayerRechargeModal.vue';
+  import { columns, searchFormSchema } from './player.data';
 
   export default defineComponent({
-    name: 'UsdtManagement',
-    components: { BasicTable, PageWrapper, UsdtModal, TableAction, Icon },
+    name: 'PayoutManagement',
+    components: { BasicTable, PageWrapper, TableAction, Icon, PlayerRechargeModal },
     setup() {
-      const go = useGo();
       const [registerModal, { openModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
       const [registerTable, { reload, updateTableDataRecord }] = useTable({
-        title: 'USDT钱包管理',
-        api: getUsdtListApi,
+        title: '玩家列表',
+        api: getPlayerListApi,
         rowKey: 'id',
         columns,
         formConfig: {
@@ -120,10 +110,6 @@
         reload();
       }
 
-      function handleView(record: Recordable) {
-        go('/system/account_detail/' + record.id);
-      }
-
       return {
         registerTable,
         registerModal,
@@ -132,7 +118,6 @@
         handleDelete,
         handleSuccess,
         handleSelect,
-        handleView,
         searchInfo,
       };
     },

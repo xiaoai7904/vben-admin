@@ -8,20 +8,20 @@ enum Api {
   Refresh = '/back/wallet/refresh',
 }
 
-export const getUsdtListApi = () => {
-  return defHttp.post<IUsdtListItem>({ url: Api.GetUsdtList });
+export const getUsdtListApi = (params) => {
+  return defHttp.post<IUsdtListItem>({ url: Api.GetUsdtList, params });
 };
 
-export const addUsdApi = () => {
-  return defHttp.post<IUsdtAdd>({ url: Api.AddUsdt });
+export const addUsdApi = (params) => {
+  return defHttp.post<IUsdtAdd>({ url: Api.AddUsdt, params });
 };
 
-export const EditUsdApi = () => {
-  return defHttp.post<IUsdtAdd>({ url: Api.AddUsdt });
+export const EditUsdApi = (params) => {
+  return defHttp.post<IUsdtAdd>({ url: Api.AddUsdt, params });
 };
 
-export const DelUsdApi = () => {
-  return defHttp.post({ url: Api.DelUsdt });
+export const DelUsdApi = (params) => {
+  return defHttp.post({ url: Api.DelUsdt, params });
 };
 
 export const RefreshUsdApi = () => {

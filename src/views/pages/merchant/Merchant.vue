@@ -2,7 +2,7 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增USDT钱包</a-button>
+        <a-button type="primary" @click="handleCreate">新增商户</a-button>
       </template>
       <template #bodyCell="{ column, record, text }">
         <template v-if="column.key === 'balance'">
@@ -55,14 +55,14 @@
   import { columns, searchFormSchema } from './usdt.data';
 
   export default defineComponent({
-    name: 'UsdtManagement',
+    name: 'MerchantManagement',
     components: { BasicTable, PageWrapper, UsdtModal, TableAction, Icon },
     setup() {
       const go = useGo();
       const [registerModal, { openModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
       const [registerTable, { reload, updateTableDataRecord }] = useTable({
-        title: 'USDT钱包管理',
+        title: '商户管理',
         api: getUsdtListApi,
         rowKey: 'id',
         columns,
