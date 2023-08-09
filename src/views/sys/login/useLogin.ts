@@ -35,7 +35,7 @@ export function useFormValid<T extends Object = any>(formRef: Ref<FormInstance>)
     const form = unref(formRef);
     return form?.validate ?? ((_nameList?: NamePath) => Promise.resolve());
   });
-  
+
   async function validForm() {
     const form = unref(formRef);
     if (!form) return;
@@ -70,7 +70,7 @@ export function useFormRules(formData?: Recordable) {
     };
   };
 
-  const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
+  const getFormRules = computed((): { [k: string]: any[] } => {
     const accountFormRule = unref(getAccountFormRule);
     const passwordFormRule = unref(getPasswordFormRule);
     const smsFormRule = unref(getSmsFormRule);
