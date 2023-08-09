@@ -19,7 +19,7 @@ const pageRouter: AppRouteModule[] = [
         meta: {
           title: 'USDT钱包管理',
         },
-        component: () => import('/@/views/pages/usdt/usdt.vue'),
+        component: () => import('/@/views/pages/usdt/Usdt.vue'),
       },
     ],
   },
