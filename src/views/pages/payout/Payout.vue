@@ -46,7 +46,7 @@
   import { columns, searchFormSchema } from './payout.data';
 
   export default defineComponent({
-    name: 'PayoutManagement',
+    name: 'OutOrderPage',
     components: { BasicTable, PageWrapper, TableAction, Icon, ReceiveDetailsModal },
     setup() {
       const [registerModal, { openModal }] = useModal();

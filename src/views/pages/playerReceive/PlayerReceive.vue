@@ -14,17 +14,7 @@
             :actions="[
               {
                 icon: 'clarity:note-edit-line',
-                label: '充值记录',
-                onClick: handleEdit.bind(null, record),
-              },
-              {
-                icon: 'clarity:note-edit-line',
-                label: '资金变更',
-                onClick: handleEdit.bind(null, record),
-              },
-              {
-                icon: 'clarity:note-edit-line',
-                label: '状态变更',
+                label: '订单详情',
                 onClick: handleEdit.bind(null, record),
               },
             ]"
@@ -32,28 +22,28 @@
         </template>
       </template>
     </BasicTable>
-    <PlayerRechargeModal @register="registerModal" @success="handleSuccess" />
+    <ReceiveDetailsModal @register="registerModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts">
   import { defineComponent, reactive } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import Icon from '/@/components/Icon/index';
-  import { getPlayerListApi } from '/@/api/page';
+  import { getOrderListApi } from '/@/api/page';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
-  import PlayerRechargeModal from './PlayerRechargeModal.vue';
-  import { columns, searchFormSchema } from './player.data';
+  import ReceiveDetailsModal from './ReceiveDetailsModal.vue';
+  import { columns, searchFormSchema } from './receive.data';
 
   export default defineComponent({
-    name: 'PlayerPage',
-    components: { BasicTable, PageWrapper, TableAction, Icon, PlayerRechargeModal },
+    name: 'PlayerInOrderPage',
+    components: { BasicTable, PageWrapper, TableAction, Icon, ReceiveDetailsModal },
     setup() {
       const [registerModal, { openModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
       const [registerTable, { reload, updateTableDataRecord }] = useTable({
-        title: '玩家列表',
-        api: getPlayerListApi,
+        title: '玩家收款订单',
+        api: getOrderListApi,
         rowKey: 'id',
         columns,
         formConfig: {

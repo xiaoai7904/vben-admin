@@ -52,10 +52,10 @@
   import { useModal } from '/@/components/Modal';
   import UsdtModal from './UsdtModal.vue';
   import { useGo } from '/@/hooks/web/usePage';
-  import { columns, searchFormSchema } from './usdt.data';
+  import { columns, searchFormSchema } from './merchant.data';
 
   export default defineComponent({
-    name: 'MerchantManagement',
+    name: 'MerchantPage',
     components: { BasicTable, PageWrapper, UsdtModal, TableAction, Icon },
     setup() {
       const go = useGo();

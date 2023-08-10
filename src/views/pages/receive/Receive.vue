@@ -46,7 +46,7 @@
   import { columns, searchFormSchema } from './receive.data';
 
   export default defineComponent({
-    name: 'ReceiveManagement',
+    name: 'InOrderPage',
     components: { BasicTable, PageWrapper, TableAction, Icon, ReceiveDetailsModal },
     setup() {
       const [registerModal, { openModal }] = useModal();
