@@ -49,7 +49,7 @@ export function pagination<T = any>(pageNo: number, pageSize: number, array: T[]
 export interface requestParams {
   method: string;
   body: any;
-  headers?: { authorization?: string };
+  headers?: { authorization?: string; 'X-API-TOKEN'?: string };
   query: any;
 }
 

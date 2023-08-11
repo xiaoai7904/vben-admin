@@ -55,7 +55,7 @@
   import { columns, searchFormSchema } from './usdt.data';
 
   export default defineComponent({
-    name: 'UsdtManagement',
+    name: 'USDTPage',
     components: { BasicTable, PageWrapper, UsdtModal, TableAction, Icon },
     setup() {
       const go = useGo();

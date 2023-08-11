@@ -51,12 +51,12 @@ const transform: AxiosTransform = {
       throw new Error(t('sys.api.apiRequestFailed'));
     }
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, result, message } = data;
+    const { errorCode, data: result, errorMsg } = data;
 
     // 这里逻辑可以根据项目进行修改
-    const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
+    const hasSuccess = data && Reflect.has(data, 'errorCode') && errorCode === ResultEnum.SUCCESS;
     if (hasSuccess) {
-      let successMsg = message;
+      let successMsg = errorMsg;
 
       if (isNull(successMsg) || isUnDef(successMsg) || isEmpty(successMsg)) {
         successMsg = t(`sys.api.operationSuccess`);
@@ -73,7 +73,7 @@ const transform: AxiosTransform = {
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
     // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
     let timeoutMsg = '';
-    switch (code) {
+    switch (errorCode) {
       case ResultEnum.TIMEOUT:
         timeoutMsg = t('sys.api.timeoutMessage');
         const userStore = useUserStoreWithOut();
@@ -81,8 +81,8 @@ const transform: AxiosTransform = {
         userStore.logout(true);
         break;
       default:
-        if (message) {
-          timeoutMsg = message;
+        if (errorMsg) {
+          timeoutMsg = errorMsg;
         }
     }
 
@@ -147,6 +147,7 @@ const transform: AxiosTransform = {
         config.params = undefined;
       }
     }
+
     return config;
   },
 
@@ -158,7 +159,7 @@ const transform: AxiosTransform = {
     const token = getToken();
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       // jwt token
-      (config as Recordable).headers.Authorization = options.authenticationScheme
+      (config as Recordable).headers['X-API-TOKEN'] = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
     }
