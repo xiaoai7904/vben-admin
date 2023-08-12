@@ -1,18 +1,42 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
-    <data>11</data>
+    <BasicTable @register="registerTable" />
   </BasicModal>
 </template>
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
+  import { BasicTable, useTable } from '/@/components/Table';
+  import { getPlayerListApi } from '/@/api/page';
+  import { rechargeColumns } from './player.data';
+
   export default defineComponent({
     name: 'PlayerRechargeModal',
-    components: { BasicModal },
+    components: { BasicTable, BasicModal },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
       const rowId = ref('');
+
+      const [registerTable] = useTable({
+        title: '玩家列表',
+        api: getPlayerListApi,
+        rowKey: 'id',
+        columns: rechargeColumns,
+        useSearchForm: false,
+        showTableSetting: true,
+        bordered: true,
+        handleSearchInfoFn(info) {
+          console.log('handleSearchInfoFn', info);
+          return info;
+        },
+        actionColumn: {
+          width: 320,
+          title: '操作',
+          dataIndex: 'action',
+          // slots: { customRender: 'action' },
+        },
+      });
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
         setModalProps({ confirmLoading: false });
@@ -34,7 +58,7 @@
         }
       }
 
-      return { registerModal, getTitle, handleSubmit };
+      return { registerTable, registerModal, getTitle, handleSubmit };
     },
   });
 </script>

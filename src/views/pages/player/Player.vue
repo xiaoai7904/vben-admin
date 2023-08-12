@@ -2,13 +2,11 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #bodyCell="{ column, record, text }">
-        <template v-if="column.key === 'balance'">
+        <template v-if="column.key === 'state'">
           <div>
-            <span>{{ text }}</span>
-            <Icon icon="clarity:note-edit-line"
-          /></div>
+            {{ text === 1 ? '启用' : '禁用' }}
+          </div>
         </template>
-        <template v-else-if="column.key === 'img'"></template>
         <template v-else-if="column.key === 'action'">
           <TableAction
             :actions="[
@@ -38,7 +36,7 @@
 <script lang="ts">
   import { defineComponent, reactive } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import Icon from '/@/components/Icon/index';
+  // import Icon from '/@/components/Icon/index';
   import { getPlayerListApi } from '/@/api/page';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
@@ -47,7 +45,7 @@
 
   export default defineComponent({
     name: 'PlayerPage',
-    components: { BasicTable, PageWrapper, TableAction, Icon, PlayerRechargeModal },
+    components: { BasicTable, PageWrapper, TableAction, PlayerRechargeModal },
     setup() {
       const [registerModal, { openModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
@@ -69,7 +67,7 @@
           return info;
         },
         actionColumn: {
-          width: 120,
+          width: 320,
           title: '操作',
           dataIndex: 'action',
           // slots: { customRender: 'action' },

@@ -3,15 +3,18 @@
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增USDT钱包</a-button>
+        <a-button type="primary" @click="updateBalance" :loading="balanceLoading">
+          同步链余额
+        </a-button>
       </template>
-      <template #bodyCell="{ column, record, text }">
-        <template v-if="column.key === 'balance'">
-          <div>
-            <span>{{ text }}</span>
-            <Icon icon="clarity:note-edit-line"
+      <template #bodyCell="{ column, record }">
+        <!-- <template v-if="column.key === 'balance'">
+          <div @click="updateBalance">
+            <span>{{ text }}&nbsp;&nbsp;</span>
+            <Icon icon="ant-design:reload-outlined"
           /></div>
-        </template>
-        <template v-else-if="column.key === 'img'"></template>
+        </template> -->
+        <template v-if="column.key === 'img'"></template>
         <template v-else-if="column.key === 'action'">
           <TableAction
             :actions="[
@@ -44,23 +47,21 @@
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive } from 'vue';
+  import { defineComponent, reactive, ref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import Icon from '/@/components/Icon/index';
-  import { getUsdtListApi, DelUsdApi } from '/@/api/page';
+  // import Icon from '/@/components/Icon/index';
+  import { getUsdtListApi, DelUsdApi, RefreshUsdApi } from '/@/api/page';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
   import UsdtModal from './UsdtModal.vue';
-  import { useGo } from '/@/hooks/web/usePage';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { columns, searchFormSchema } from './usdt.data';
 
   export default defineComponent({
     name: 'USDTPage',
-    components: { BasicTable, PageWrapper, UsdtModal, TableAction, Icon },
+    components: { BasicTable, PageWrapper, UsdtModal, TableAction },
     setup() {
-      const go = useGo();
       const { t } = useI18n();
       const [registerModal, { openModal }] = useModal();
       const { createMessage } = useMessage();
@@ -89,6 +90,7 @@
           // slots: { customRender: 'action' },
         },
       });
+      const balanceLoading = ref(false);
 
       function handleCreate() {
         openModal(true, {
@@ -122,8 +124,16 @@
         reload();
       }
 
-      function handleView(record: Recordable) {
-        go('/system/account_detail/' + record.id);
+      async function updateBalance() {
+        try {
+          balanceLoading.value = true;
+          await RefreshUsdApi();
+          createMessage.success(t('layout.setting.operatingTitle'));
+          await reload();
+        } catch (error) {
+        } finally {
+          balanceLoading.value = false;
+        }
       }
 
       return {
@@ -134,8 +144,9 @@
         handleDelete,
         handleSuccess,
         handleSelect,
-        handleView,
+        updateBalance,
         searchInfo,
+        balanceLoading,
       };
     },
   });
