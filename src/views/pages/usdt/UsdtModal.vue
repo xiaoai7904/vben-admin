@@ -48,8 +48,12 @@
           setModalProps({ confirmLoading: true });
           // TODO custom api
           console.log(values);
+          if (Array.isArray(values.imgName)) {
+            values.imgName = values.imgName[0];
+          }
+
           if (unref(isUpdate)) {
-            await EditUsdApi(values);
+            await EditUsdApi({ ...values, walletId: rowId.value });
           } else {
             await addUsdApi(values);
           }

@@ -1,6 +1,7 @@
 // import { getAllRoleList, isAccountExist } from '/@/api/demo/system';
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
+import { uploadApi } from '/@/api/sys/upload';
 
 export const columns: BasicColumn[] = [
   {
@@ -67,15 +68,18 @@ export const UsdtModalFormSchema: FormSchema[] = [
       },
     ],
   },
-  // {
-  //   field: 'imgName',
-  //   label: '图片',
-  //   component: 'Upload',
-  //   rules: [
-  //     {
-  //       required: true,
-  //       message: '请上传图片',
-  //     },
-  //   ],
-  // },
+  {
+    field: 'imgName',
+    label: '图片',
+    component: 'Upload',
+    // rules: [
+    //   {
+    //     required: true,
+    //     message: '请上传图片',
+    //   },
+    // ],
+    componentProps: {
+      api: uploadApi,
+    },
+  },
 ];

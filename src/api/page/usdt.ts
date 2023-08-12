@@ -17,7 +17,7 @@ export const addUsdApi = (params) => {
 };
 
 export const EditUsdApi = (params) => {
-  return defHttp.post<IUsdtAdd>({ url: Api.AddUsdt, params });
+  return defHttp.post<IUsdtAdd>({ url: Api.EditUsdt, params });
 };
 
 export const DelUsdApi = (params) => {

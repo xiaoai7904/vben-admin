@@ -122,7 +122,7 @@ export class VAxios {
    */
   uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFileParams) {
     const formData = new window.FormData();
-    const customFilename = params.name || 'file';
+    const customFilename = 'image';
 
     if (params.filename) {
       formData.append(customFilename, params.file, params.filename);
@@ -194,10 +194,10 @@ export class VAxios {
   request<T = any>(config: AxiosRequestConfig, options?: RequestOptions): Promise<T> {
     let conf: CreateAxiosOptions = cloneDeep(config);
     // cancelToken 如果被深拷贝，会导致最外层无法使用cancel方法来取消请求
-    if(config.cancelToken){
-        conf.cancelToken = config.cancelToken
+    if (config.cancelToken) {
+      conf.cancelToken = config.cancelToken;
     }
-    
+
     const transform = this.getTransform();
 
     const { requestOptions } = this.options;

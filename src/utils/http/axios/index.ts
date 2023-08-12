@@ -99,15 +99,15 @@ const transform: AxiosTransform = {
 
   // 请求之前处理config
   beforeRequestHook: (config, options) => {
-    const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true, urlPrefix } = options;
+    const { joinPrefix, joinParamsToUrl, formatDate, joinTime = true, urlPrefix } = options;
 
     if (joinPrefix) {
       config.url = `${urlPrefix}${config.url}`;
     }
 
-    if (apiUrl && isString(apiUrl)) {
-      config.url = `${apiUrl}${config.url}`;
-    }
+    // if (apiUrl && isString(apiUrl)) {
+    //   config.url = `${apiUrl}${config.url}`;
+    // }
     const params = config.params || {};
     const data = config.data || false;
     formatDate && data && !isString(data) && formatRequestDate(data);

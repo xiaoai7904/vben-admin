@@ -47,11 +47,13 @@
   import { defineComponent, reactive } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import Icon from '/@/components/Icon/index';
-  import { getUsdtListApi } from '/@/api/page';
+  import { getUsdtListApi, DelUsdApi } from '/@/api/page';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
   import UsdtModal from './UsdtModal.vue';
   import { useGo } from '/@/hooks/web/usePage';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { columns, searchFormSchema } from './usdt.data';
 
   export default defineComponent({
@@ -59,9 +61,11 @@
     components: { BasicTable, PageWrapper, UsdtModal, TableAction, Icon },
     setup() {
       const go = useGo();
+      const { t } = useI18n();
       const [registerModal, { openModal }] = useModal();
+      const { createMessage } = useMessage();
       const searchInfo = reactive<Recordable>({});
-      const [registerTable, { reload, updateTableDataRecord }] = useTable({
+      const [registerTable, { reload }] = useTable({
         title: 'USDT钱包管理',
         api: getUsdtListApi,
         rowKey: 'id',
@@ -102,17 +106,15 @@
 
       function handleDelete(record: Recordable) {
         console.log(record);
+        DelUsdApi({ walletId: record.id }).then(() => {
+          createMessage.success(t('layout.setting.operatingTitle'));
+          reload();
+        });
       }
 
-      function handleSuccess({ isUpdate, values }) {
-        if (isUpdate) {
-          // 演示不刷新表格直接更新内部数据。
-          // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-          const result = updateTableDataRecord(values.id, values);
-          console.log(result);
-        } else {
-          reload();
-        }
+      function handleSuccess() {
+        createMessage.success(t('layout.setting.operatingTitle'));
+        reload();
       }
 
       function handleSelect(deptId = '') {
