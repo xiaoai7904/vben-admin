@@ -9,7 +9,7 @@ const pageRouter: AppRouteModule[] = [
     component: LAYOUT,
     meta: {
       orderNo: 10000,
-      icon: 'ion:build-outline',
+      icon: 'ant-design:user-switch-outlined',
       title: '玩家管理',
     },
     children: [
@@ -29,7 +29,7 @@ const pageRouter: AppRouteModule[] = [
     component: LAYOUT,
     meta: {
       orderNo: 10000,
-      icon: 'ion:build-outline',
+      icon: 'ant-design:usergroup-add-outlined',
       title: '商户管理',
     },
     children: [
@@ -49,7 +49,7 @@ const pageRouter: AppRouteModule[] = [
     component: LAYOUT,
     meta: {
       orderNo: 10000,
-      icon: 'ion:build-outline',
+      icon: 'ant-design:money-collect-outlined',
       title: 'USDT钱包管理',
     },
     children: [
@@ -69,7 +69,7 @@ const pageRouter: AppRouteModule[] = [
     component: LAYOUT,
     meta: {
       orderNo: 10000,
-      icon: 'ion:build-outline',
+      icon: 'ant-design:transaction-outlined',
       title: '商户订单管理',
     },
     children: [
@@ -97,7 +97,7 @@ const pageRouter: AppRouteModule[] = [
     component: LAYOUT,
     meta: {
       orderNo: 10000,
-      icon: 'ion:build-outline',
+      icon: 'ant-design:credit-card-outlined',
       title: '玩家订单管理',
     },
     children: [
@@ -133,7 +133,7 @@ const pageRouter: AppRouteModule[] = [
     component: LAYOUT,
     meta: {
       orderNo: 10000,
-      icon: 'ion:build-outline',
+      icon: 'ant-design:tool-outlined',
       title: '系统设置',
     },
     children: [
