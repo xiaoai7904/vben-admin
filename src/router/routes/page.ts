@@ -14,7 +14,7 @@ const pageRouter: AppRouteModule[] = [
     },
     children: [
       {
-        path: '/list',
+        path: '/palyer-list',
         name: 'PlayerPage',
         meta: {
           title: '玩家管理',
@@ -34,7 +34,7 @@ const pageRouter: AppRouteModule[] = [
     },
     children: [
       {
-        path: '/list',
+        path: '/merchant-list',
         name: 'MerchantPage',
         meta: {
           title: '商户管理',
@@ -74,20 +74,20 @@ const pageRouter: AppRouteModule[] = [
     },
     children: [
       {
-        path: '/in',
+        path: '/merchant-in',
         name: 'InOrderPage',
         meta: {
           title: '收款订单',
         },
-        component: () => import('/@/views/pages/receive/Receive.vue'),
+        component: () => import('/@/views/pages/merchantReceive/Receive.vue'),
       },
       {
-        path: '/out',
+        path: '/merchant-out',
         name: 'OutOrderPage',
         meta: {
           title: '付款订单',
         },
-        component: () => import('/@/views/pages/payout/Payout.vue'),
+        component: () => import('/@/views/pages/merchantPayout/Payout.vue'),
       },
     ],
   },
@@ -102,28 +102,28 @@ const pageRouter: AppRouteModule[] = [
     },
     children: [
       {
-        path: '/in',
+        path: '/palyer-in',
         name: 'PlayerInOrderPage',
         meta: {
           title: '收款订单',
         },
-        component: () => import('/@/views/form-design/index.vue'),
+        component: () => import('/@/views/pages/playerReceive/Receive.vue'),
       },
       {
-        path: '/inr',
+        path: '/palyer-inr',
         name: 'PlayerInrOrderPage',
         meta: {
           title: 'INR充值订单',
         },
-        component: () => import('/@/views/form-design/index.vue'),
+        component: () => import('/@/views/pages/payerInr/Inr.vue'),
       },
       {
-        path: '/usdt',
+        path: '/palyer-usdt',
         name: 'PlayerUsdtOrderPage',
         meta: {
           title: 'USDT充值订单',
         },
-        component: () => import('/@/views/form-design/index.vue'),
+        component: () => import('/@/views/pages/payerUsdt/Usdt.vue'),
       },
     ],
   },

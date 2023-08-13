@@ -21,12 +21,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '创建时间',
-    dataIndex: 'create_time',
-    width: 180,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'update_time',
+    dataIndex: 'createTime',
     width: 180,
   },
 ];

@@ -2,13 +2,16 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #bodyCell="{ column, record, text }">
-        <template v-if="column.key === 'balance'">
+        <template v-if="column.key === 'orderState'">
           <div>
-            <span>{{ text }}</span>
-            <Icon icon="clarity:note-edit-line"
-          /></div>
+            {{ orderStatusMap[text] }}
+          </div>
         </template>
-        <template v-else-if="column.key === 'img'"></template>
+        <template v-else-if="column.key === 'notifyState'">
+          <div>
+            {{ notifyStateMap[text] }}
+          </div>
+        </template>
         <template v-else-if="column.key === 'action'">
           <TableAction
             :actions="[
@@ -20,38 +23,49 @@
               {
                 icon: 'clarity:note-edit-line',
                 label: '审核',
-                onClick: handleEdit.bind(null, record),
+                onClick: handleReviewEdit.bind(null, record),
               },
               {
                 icon: 'clarity:note-edit-line',
                 label: '回调',
-                onClick: handleEdit.bind(null, record),
+                tooltip: '回调',
+                popConfirm: {
+                  title: '是否确认进行该操作',
+                  placement: 'left',
+                  confirm: handleCallback.bind(null, record),
+                },
               },
             ]"
           />
         </template>
       </template>
     </BasicTable>
-    <ReceiveDetailsModal @register="registerModal" @success="handleSuccess" />
+    <ReceiveDetailsModal @register="registerModal" @success="reload" />
+    <ReceiveReviewModal @register="registerReviewModal" @success="reload" />
   </PageWrapper>
 </template>
 <script lang="ts">
   import { defineComponent, reactive } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import Icon from '/@/components/Icon/index';
-  import { getOrderListApi } from '/@/api/page';
+  import { getOrderListApi, OrderNotifyApi } from '/@/api/page';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from '/@/hooks/web/useI18n';
   import ReceiveDetailsModal from './ReceiveDetailsModal.vue';
-  import { columns, searchFormSchema } from './receive.data';
+  import ReceiveReviewModal from './ReceiveReviewModal.vue';
+  import { columns, searchFormSchema, orderState, notifyState } from './receive.data';
 
   export default defineComponent({
     name: 'InOrderPage',
-    components: { BasicTable, PageWrapper, TableAction, Icon, ReceiveDetailsModal },
+    components: { BasicTable, PageWrapper, TableAction, ReceiveDetailsModal, ReceiveReviewModal },
     setup() {
+      const { t } = useI18n();
+      const { createMessage } = useMessage();
       const [registerModal, { openModal }] = useModal();
+      const [registerReviewModal, { openModal: openReviewModel }] = useModal();
       const searchInfo = reactive<Recordable>({});
-      const [registerTable, { reload, updateTableDataRecord }] = useTable({
+      const [registerTable, { reload, setLoading }] = useTable({
         title: '商户收款订单',
         api: getOrderListApi,
         rowKey: 'id',
@@ -61,26 +75,20 @@
           schemas: searchFormSchema,
           autoSubmitOnEnter: true,
         },
+        canResize: false,
         useSearchForm: true,
         showTableSetting: true,
         bordered: true,
-        handleSearchInfoFn(info) {
-          console.log('handleSearchInfoFn', info);
-          return info;
-        },
         actionColumn: {
-          width: 120,
+          width: 250,
           title: '操作',
           dataIndex: 'action',
-          // slots: { customRender: 'action' },
         },
       });
 
-      function handleCreate() {
-        openModal(true, {
-          isUpdate: false,
-        });
-      }
+      const orderStatusMap = reactive(orderState);
+
+      const notifyStateMap = reactive(notifyState);
 
       function handleEdit(record: Recordable) {
         console.log(record);
@@ -94,31 +102,33 @@
         console.log(record);
       }
 
-      function handleSuccess({ isUpdate, values }) {
-        if (isUpdate) {
-          // 演示不刷新表格直接更新内部数据。
-          // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-          const result = updateTableDataRecord(values.id, values);
-          console.log(result);
-        } else {
+      function handleReviewEdit(record: Recordable) {
+        openReviewModel(true, { record });
+      }
+
+      async function handleCallback(record: Recordable) {
+        try {
+          setLoading(true);
+          await OrderNotifyApi({ pOrderId: record.pOrderId });
+          createMessage.success(t('layout.setting.operatingTitle'));
           reload();
+        } catch (error) {
+        } finally {
+          setLoading(false);
         }
       }
-
-      function handleSelect(deptId = '') {
-        searchInfo.deptId = deptId;
-        reload();
-      }
-
       return {
         registerTable,
         registerModal,
-        handleCreate,
         handleEdit,
         handleDelete,
-        handleSuccess,
-        handleSelect,
+        reload,
+        registerReviewModal,
+        handleReviewEdit,
+        handleCallback,
         searchInfo,
+        orderStatusMap,
+        notifyStateMap,
       };
     },
   });

@@ -12,53 +12,46 @@
 
   export default defineComponent({
     name: 'PlayerRechargeModal',
-    components: { BasicTable, BasicModal },
+    components: { BasicModal, BasicTable },
     emits: ['success', 'register'],
-    setup(_, { emit }) {
+    setup(_) {
       const isUpdate = ref(true);
       const rowId = ref('');
+      const userName = ref('');
 
-      const [registerTable] = useTable({
-        title: '玩家列表',
+      const [registerTable, { reload }] = useTable({
+        title: '',
         api: getPlayerListApi,
         rowKey: 'id',
+        canResize: false,
         columns: rechargeColumns,
         useSearchForm: false,
+        immediate: false,
         showTableSetting: true,
         bordered: true,
-        handleSearchInfoFn(info) {
-          console.log('handleSearchInfoFn', info);
-          return info;
-        },
-        actionColumn: {
-          width: 320,
-          title: '操作',
-          dataIndex: 'action',
-          // slots: { customRender: 'action' },
+        beforeFetch(params) {
+          return { ...params, ...{ userId: rowId.value } };
         },
       });
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
-        setModalProps({ confirmLoading: false });
+        setModalProps({ confirmLoading: false, width: '80vw' });
         isUpdate.value = !!data?.isUpdate;
 
         if (unref(isUpdate)) {
           rowId.value = data.record.id;
+          userName.value = data.record.phone;
+          reload();
         }
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增USDT钱包' : '编辑USDT钱包'));
+      const getTitle = computed(() => `${userName.value}充值记录`);
 
-      async function handleSubmit() {
-        try {
-          closeModal();
-          emit('success', { isUpdate: unref(isUpdate), values: {} });
-        } finally {
-          setModalProps({ confirmLoading: false });
-        }
+      function handleSubmit() {
+        closeModal();
       }
 
-      return { registerTable, registerModal, getTitle, handleSubmit };
+      return { registerModal, registerTable, getTitle, handleSubmit };
     },
   });
 </script>
