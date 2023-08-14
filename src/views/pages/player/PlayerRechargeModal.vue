@@ -1,19 +1,26 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
-    <BasicTable @register="registerTable" />
+    <BasicTable @register="registerTable">
+      <template #bodyCell="{ column, text }">
+        <template v-if="column.key === 'type'">
+          <div>
+            {{ typeMap[text] }}
+          </div>
+        </template>
+      </template>
+    </BasicTable>
   </BasicModal>
 </template>
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicTable, useTable } from '/@/components/Table';
-  import { getPlayerListApi } from '/@/api/page';
-  import { rechargeColumns } from './player.data';
+  import { playerRechargeApi } from '/@/api/page';
+  import { rechargeColumns, typeMap } from './player.data';
 
   export default defineComponent({
     name: 'PlayerRechargeModal',
     components: { BasicModal, BasicTable },
-    emits: ['success', 'register'],
     setup(_) {
       const isUpdate = ref(true);
       const rowId = ref('');
@@ -21,7 +28,7 @@
 
       const [registerTable, { reload }] = useTable({
         title: '',
-        api: getPlayerListApi,
+        api: playerRechargeApi,
         rowKey: 'id',
         canResize: false,
         columns: rechargeColumns,
@@ -45,13 +52,13 @@
         }
       });
 
-      const getTitle = computed(() => `${userName.value}充值记录`);
+      const getTitle = computed(() => `${userName.value} 充值记录`);
 
       function handleSubmit() {
         closeModal();
       }
 
-      return { registerModal, registerTable, getTitle, handleSubmit };
+      return { registerModal, registerTable, getTitle, handleSubmit, typeMap };
     },
   });
 </script>

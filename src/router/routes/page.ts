@@ -4,6 +4,26 @@ import { LAYOUT } from '/@/router/constant';
 
 const pageRouter: AppRouteModule[] = [
   {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: LAYOUT,
+    meta: {
+      orderNo: 10000,
+      icon: 'ant-design:home-outlined',
+      title: '首页',
+    },
+    children: [
+      {
+        path: '/dashboard',
+        name: 'DashboardPage',
+        meta: {
+          title: '首页',
+        },
+        component: () => import('/@/views/dashboard/analysis/index.vue'),
+      },
+    ],
+  },
+  {
     path: '/palyer',
     name: 'Player',
     component: LAYOUT,
