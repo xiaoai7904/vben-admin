@@ -8,7 +8,7 @@
           </div>
         </template>
         <template v-if="column.key === 'image'">
-          <img :src="text" />
+          <Image :src="text" class="table-img" />
         </template>
       </template>
     </BasicTable>
@@ -18,12 +18,13 @@
   import { defineComponent, reactive } from 'vue';
   import { BasicTable, useTable } from '/@/components/Table';
   import { getPlayerInrOrderListApi } from '/@/api/page';
+  import { Image } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
   import { columns, searchFormSchema, orderState } from './inr.data';
 
   export default defineComponent({
     name: 'PlayerInrOrderPage',
-    components: { BasicTable, PageWrapper },
+    components: { BasicTable, PageWrapper, Image },
     setup() {
       const searchInfo = reactive<Recordable>({});
       const [registerTable] = useTable({

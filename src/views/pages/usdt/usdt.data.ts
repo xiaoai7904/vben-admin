@@ -5,15 +5,15 @@ import { uploadApi } from '/@/api/sys/upload';
 
 export const columns: BasicColumn[] = [
   {
-    title: '名称',
+    title: '钱包名称',
     dataIndex: 'name',
   },
   {
-    title: '地址',
+    title: '钱包地址',
     dataIndex: 'addr',
   },
   {
-    title: '图片',
+    title: '钱包二维码',
     dataIndex: 'img',
   },
   {
@@ -25,13 +25,8 @@ export const columns: BasicColumn[] = [
     dataIndex: 'state',
   },
   {
-    title: '创建时间',
-    dataIndex: 'create_time',
-    width: 180,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'update_time',
+    title: '充值时间',
+    dataIndex: 'createTime',
     width: 180,
   },
 ];

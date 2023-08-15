@@ -16,7 +16,7 @@
           <a :href="'https://tronscan.org/#/transaction/' + text" target="_blank">{{ text }}</a>
         </template>
         <template v-if="column.key === 'image'">
-          <img :src="text" />
+          <Image :src="text" class="table-img" />
         </template>
       </template>
     </BasicTable>
@@ -24,6 +24,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, reactive } from 'vue';
+  import { Image } from 'ant-design-vue';
   import { BasicTable, useTable } from '/@/components/Table';
   import { getPlayerUsdtOrderListApi } from '/@/api/page';
   import { PageWrapper } from '/@/components/Page';
@@ -31,7 +32,7 @@
 
   export default defineComponent({
     name: 'PlayerUsdtOrderPage',
-    components: { BasicTable, PageWrapper },
+    components: { BasicTable, PageWrapper, Image },
     setup() {
       const searchInfo = reactive<Recordable>({});
       const [registerTable] = useTable({

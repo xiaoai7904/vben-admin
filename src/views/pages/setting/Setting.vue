@@ -103,6 +103,9 @@
         labelCol: {
           span: 6,
         },
+        submitButtonOptions: {
+          text: '更新',
+        },
         actionColOptions: {
           span: 8,
           offset: 16,

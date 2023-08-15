@@ -7,14 +7,19 @@
           同步链余额
         </a-button>
       </template>
-      <template #bodyCell="{ column, record }">
+      <template #bodyCell="{ column, record, text }">
         <!-- <template v-if="column.key === 'balance'">
           <div @click="updateBalance">
             <span>{{ text }}&nbsp;&nbsp;</span>
             <Icon icon="ant-design:reload-outlined"
           /></div>
         </template> -->
-        <template v-if="column.key === 'img'"></template>
+        <template v-if="column.key === 'img'">
+          <Image :src="text" class="table-img" />
+        </template>
+        <template v-else-if="column.key === 'state'">
+          <Switch :checked="text === 1" @change="handleStateEdit(record)" />
+        </template>
         <template v-else-if="column.key === 'action'">
           <TableAction
             :actions="[
@@ -52,7 +57,8 @@
   import { defineComponent, reactive, ref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   // import Icon from '/@/components/Icon/index';
-  import { getUsdtListApi, DelUsdApi, RefreshUsdApi } from '/@/api/page';
+  import { Image, Switch } from 'ant-design-vue';
+  import { getUsdtListApi, DelUsdApi, RefreshUsdApi, EditUsdApi } from '/@/api/page';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
   import UsdtModal from './UsdtModal.vue';
@@ -62,13 +68,13 @@
 
   export default defineComponent({
     name: 'USDTPage',
-    components: { BasicTable, PageWrapper, UsdtModal, TableAction },
+    components: { BasicTable, PageWrapper, UsdtModal, TableAction, Image, Switch },
     setup() {
       const { t } = useI18n();
       const [registerModal, { openModal }] = useModal();
       const { createMessage } = useMessage();
       const searchInfo = reactive<Recordable>({});
-      const [registerTable, { reload }] = useTable({
+      const [registerTable, { reload, setLoading }] = useTable({
         title: 'USDT钱包管理',
         api: getUsdtListApi,
         rowKey: 'id',
@@ -86,7 +92,7 @@
           return info;
         },
         actionColumn: {
-          width: 120,
+          width: 200,
           title: '操作',
           dataIndex: 'action',
           // slots: { customRender: 'action' },
@@ -138,6 +144,18 @@
         }
       }
 
+      async function handleStateEdit(record: Recordable) {
+        try {
+          setLoading(true);
+          await EditUsdApi({ walletId: record.id, state: record.state === 1 ? 0 : 1 });
+          reload();
+        } catch (error) {
+        } finally {
+          setLoading(false);
+        }
+        console.log(record);
+      }
+
       return {
         registerTable,
         registerModal,
@@ -147,6 +165,7 @@
         handleSuccess,
         handleSelect,
         updateBalance,
+        handleStateEdit,
         searchInfo,
         balanceLoading,
       };
