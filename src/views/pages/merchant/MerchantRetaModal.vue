@@ -31,13 +31,14 @@
         resetFields();
         setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
-        const rateInfoResult = await RateMerchantApi({});
+        const rateInfoResult = await RateMerchantApi({ accountId: data.record.id });
 
         console.log(rateInfoResult);
 
-        rowId.value = data.record.accountId;
+        rowId.value = data.record.id;
         setFieldsValue({
           ...data.record,
+          ...rateInfoResult,
         });
       });
 
@@ -49,7 +50,7 @@
           setModalProps({ confirmLoading: true });
           // TODO custom api
           console.log(values);
-          await EditRateMerchantApi(values);
+          await EditRateMerchantApi({ ...values, accountId: rowId.value });
 
           closeModal();
           emit('success', {

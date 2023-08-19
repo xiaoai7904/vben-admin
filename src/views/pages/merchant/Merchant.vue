@@ -137,6 +137,7 @@
       function handleMerchantView(record: Recordable) {
         console.log(record);
         openRataModal(true, {
+          record,
           isUpdate: false,
         });
       }

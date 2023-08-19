@@ -11,6 +11,7 @@ const pageRouter: AppRouteModule[] = [
       orderNo: 10000,
       icon: 'ant-design:home-outlined',
       title: '首页',
+      roles: [1, 2] as any,
     },
     children: [
       {
@@ -31,6 +32,7 @@ const pageRouter: AppRouteModule[] = [
       orderNo: 10000,
       icon: 'ant-design:user-switch-outlined',
       title: '玩家管理',
+      roles: [1] as any,
     },
     children: [
       {
@@ -51,6 +53,7 @@ const pageRouter: AppRouteModule[] = [
       orderNo: 10000,
       icon: 'ant-design:usergroup-add-outlined',
       title: '商户管理',
+      roles: [1, 2] as any,
     },
     children: [
       {
@@ -71,6 +74,7 @@ const pageRouter: AppRouteModule[] = [
       orderNo: 10000,
       icon: 'ant-design:money-collect-outlined',
       title: 'USDT钱包管理',
+      roles: [1] as any,
     },
     children: [
       {
@@ -91,6 +95,7 @@ const pageRouter: AppRouteModule[] = [
       orderNo: 10000,
       icon: 'ant-design:transaction-outlined',
       title: '商户订单管理',
+      roles: [1, 2] as any,
     },
     children: [
       {
@@ -119,6 +124,7 @@ const pageRouter: AppRouteModule[] = [
       orderNo: 10000,
       icon: 'ant-design:credit-card-outlined',
       title: '玩家订单管理',
+      roles: [1] as any,
     },
     children: [
       {
@@ -155,6 +161,7 @@ const pageRouter: AppRouteModule[] = [
       orderNo: 10000,
       icon: 'ant-design:picture-outlined',
       title: 'Banner设置',
+      roles: [1] as any,
     },
     children: [
       {
@@ -175,6 +182,7 @@ const pageRouter: AppRouteModule[] = [
       orderNo: 10000,
       icon: 'ant-design:tool-outlined',
       title: '系统设置',
+      roles: [1] as any,
     },
     children: [
       {

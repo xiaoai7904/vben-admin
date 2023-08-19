@@ -90,33 +90,33 @@ export const InfoModalFormSchema: FormSchema[] = [
     field: 'payinRate',
     label: '收款费率(百分比)',
     component: 'Input',
-    rules: [
-      {
-        required: true,
-        message: '请输入收款费率',
-      },
-    ],
+    // rules: [
+    //   {
+    //     required: true,
+    //     message: '请输入收款费率',
+    //   },
+    // ],
   },
   {
     field: 'payoutRate',
     label: '付款费率(百分比)',
     component: 'Input',
-    rules: [
-      {
-        required: true,
-        message: '请输入付款费率',
-      },
-    ],
+    // rules: [
+    //   {
+    //     required: true,
+    //     message: '请输入付款费率',
+    //   },
+    // ],
   },
   {
     field: 'payoutFee',
     label: '付款手续费(单笔)',
     component: 'Input',
-    rules: [
-      {
-        required: true,
-        message: '请输入付款手续费',
-      },
-    ],
+    // rules: [
+    //   {
+    //     required: true,
+    //     message: '请输入付款手续费',
+    //   },
+    // ],
   },
 ];
