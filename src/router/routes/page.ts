@@ -148,6 +148,26 @@ const pageRouter: AppRouteModule[] = [
     ],
   },
   {
+    path: '/banner',
+    name: 'Banner',
+    component: LAYOUT,
+    meta: {
+      orderNo: 10000,
+      icon: 'ant-design:picture-outlined',
+      title: 'Banner设置',
+    },
+    children: [
+      {
+        path: '/banner-page',
+        name: 'BannerPage',
+        meta: {
+          title: 'Banner设置',
+        },
+        component: () => import('/@/views/pages/banner/Banner.vue'),
+      },
+    ],
+  },
+  {
     path: '/setting',
     name: 'Setting',
     component: LAYOUT,

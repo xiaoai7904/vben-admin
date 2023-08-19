@@ -7,10 +7,10 @@
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { UsdtModalFormSchema } from './usdt.data';
-  import { addUsdApi, EditUsdApi } from '/@/api/page';
+  import { InfoModalFormSchema } from './merchant.data';
+  import { RateMerchantApi, EditRateMerchantApi } from '/@/api/page';
   export default defineComponent({
-    name: 'UsdtModal',
+    name: 'MerchanInfoModal',
     components: { BasicModal, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
@@ -18,9 +18,9 @@
       const rowId = ref('');
 
       const [registerForm, { setFieldsValue, resetFields, validate }] = useForm({
-        labelWidth: 100,
+        labelWidth: 150,
         baseColProps: { span: 24 },
-        schemas: UsdtModalFormSchema,
+        schemas: InfoModalFormSchema,
         showActionButtonGroup: false,
         actionColOptions: {
           span: 23,
@@ -31,16 +31,17 @@
         resetFields();
         setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
+        const rateInfoResult = await RateMerchantApi({});
 
-        if (unref(isUpdate)) {
-          rowId.value = data.record.id;
-          setFieldsValue({
-            ...data.record,
-          });
-        }
+        console.log(rateInfoResult);
+
+        rowId.value = data.record.accountId;
+        setFieldsValue({
+          ...data.record,
+        });
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增USDT钱包' : '编辑USDT钱包'));
+      const getTitle = computed(() => (!unref(isUpdate) ? '商户费率' : '商户费率'));
 
       async function handleSubmit() {
         try {
@@ -48,18 +49,13 @@
           setModalProps({ confirmLoading: true });
           // TODO custom api
           console.log(values);
-          if (Array.isArray(values.imgName)) {
-            values.imgName = values.imgName[0];
-          }
-
-          if (unref(isUpdate)) {
-            await EditUsdApi({ ...values, walletId: rowId.value });
-          } else {
-            await addUsdApi(values);
-          }
+          await EditRateMerchantApi(values);
 
           closeModal();
-          emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
+          emit('success', {
+            isUpdate: unref(isUpdate),
+            values: { ...values, accountId: rowId.value },
+          });
         } finally {
           setModalProps({ confirmLoading: false });
         }

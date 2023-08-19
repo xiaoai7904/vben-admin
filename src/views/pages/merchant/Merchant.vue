@@ -18,11 +18,12 @@
         <template v-else-if="column.key === 'action'">
           <TableAction
             :actions="[
-              // {
-              //   icon: 'clarity:info-standard-line',
-              //   tooltip: '查看用户详情',
-              //   onClick: handleView.bind(null, record),
-              // },
+              {
+                icon: 'clarity:info-standard-line',
+                tooltip: '商户费率',
+                label: '商户费率',
+                onClick: handleMerchantView.bind(null, record),
+              },
               {
                 icon: 'ant-design:reload-outlined',
                 label: '重置商户密码',
@@ -35,7 +36,7 @@
               {
                 icon: 'ant-design:delete-outlined',
                 color: 'error',
-                label: '删除商户',
+                label: '删除',
                 tooltip: '删除',
                 popConfirm: {
                   title: '是否确认删除',
@@ -49,6 +50,7 @@
       </template>
     </BasicTable>
     <MerchantModal @register="registerModal" @success="handleSuccess" />
+    <MerchantRateModal @register="registerRateModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -60,14 +62,16 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useI18n } from '/@/hooks/web/useI18n';
   import MerchantModal from './MerchantModal.vue';
+  import MerchantRateModal from './MerchantRetaModal.vue';
   import { columns, searchFormSchema } from './merchant.data';
 
   export default defineComponent({
     name: 'MerchantPage',
-    components: { BasicTable, PageWrapper, MerchantModal, TableAction },
+    components: { BasicTable, PageWrapper, MerchantModal, MerchantRateModal, TableAction },
     setup() {
       const { t } = useI18n();
       const [registerModal, { openModal }] = useModal();
+      const [registerRateModal, { openModal: openRataModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
       const { createMessage } = useMessage();
       const [registerTable, { reload, setLoading }] = useTable({
@@ -85,7 +89,7 @@
         showTableSetting: true,
         bordered: true,
         actionColumn: {
-          width: 220,
+          width: 350,
           title: '操作',
           dataIndex: 'action',
         },
@@ -130,6 +134,13 @@
         reload();
       }
 
+      function handleMerchantView(record: Recordable) {
+        console.log(record);
+        openRataModal(true, {
+          isUpdate: false,
+        });
+      }
+
       return {
         registerTable,
         registerModal,
@@ -138,6 +149,8 @@
         handleSuccess,
         handleRestEdit,
         handleSelect,
+        handleMerchantView,
+        registerRateModal,
         searchInfo,
       };
     },

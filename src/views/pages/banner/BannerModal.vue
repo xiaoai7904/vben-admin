@@ -7,8 +7,8 @@
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { UsdtModalFormSchema } from './usdt.data';
-  import { addUsdApi, EditUsdApi } from '/@/api/page';
+  import { UsdtModalFormSchema } from './banner.data';
+  import { EditBannerApi, addBannerApi } from '/@/api/page';
   export default defineComponent({
     name: 'UsdtModal',
     components: { BasicModal, BasicForm },
@@ -37,13 +37,13 @@
           setFieldsValue({
             ...data.record,
             ...{
-              imgName: [data.record.imgName],
+              image: [data.record.image],
             },
           });
         }
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增USDT钱包' : '编辑USDT钱包'));
+      const getTitle = computed(() => (!unref(isUpdate) ? '新增Banner' : '编辑Banner'));
 
       async function handleSubmit() {
         try {
@@ -51,14 +51,14 @@
           setModalProps({ confirmLoading: true });
           // TODO custom api
           console.log(values);
-          if (Array.isArray(values.imgName)) {
-            values.imgName = values.imgName[0];
+          if (Array.isArray(values.image)) {
+            values.image = values.image[0];
           }
 
           if (unref(isUpdate)) {
-            await EditUsdApi({ ...values, walletId: rowId.value });
+            await EditBannerApi({ ...values, walletId: rowId.value });
           } else {
-            await addUsdApi(values);
+            await addBannerApi(values);
           }
 
           closeModal();
@@ -72,3 +72,4 @@
     },
   });
 </script>
+./banner.data

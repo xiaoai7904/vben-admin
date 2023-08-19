@@ -7,3 +7,4 @@ export * from './playerReceive';
 export * from './playerInr';
 export * from './playerUsdt';
 export * from './settingConfig';
+export * from './banner';

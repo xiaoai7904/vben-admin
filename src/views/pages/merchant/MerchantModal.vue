@@ -7,7 +7,7 @@
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { UsdtModalFormSchema } from './merchant.data';
+  import { AddModalFormSchema } from './merchant.data';
   import { AddMerchantApi } from '/@/api/page';
   export default defineComponent({
     name: 'UsdtModal',
@@ -20,7 +20,7 @@
       const [registerForm, { setFieldsValue, resetFields, validate }] = useForm({
         labelWidth: 100,
         baseColProps: { span: 24 },
-        schemas: UsdtModalFormSchema,
+        schemas: AddModalFormSchema,
         showActionButtonGroup: false,
         actionColOptions: {
           span: 23,

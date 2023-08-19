@@ -2,10 +2,7 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增USDT钱包</a-button>
-        <a-button type="primary" @click="updateBalance" :loading="balanceLoading">
-          同步链余额
-        </a-button>
+        <a-button type="primary" @click="handleCreate">新增Banner</a-button>
       </template>
       <template #bodyCell="{ column, record, text }">
         <!-- <template v-if="column.key === 'balance'">
@@ -14,7 +11,7 @@
             <Icon icon="ant-design:reload-outlined"
           /></div>
         </template> -->
-        <template v-if="column.key === 'img'">
+        <template v-if="column.key === 'image'">
           <Image :src="text" class="table-img" />
         </template>
         <template v-else-if="column.key === 'state'">
@@ -50,7 +47,7 @@
         </template>
       </template>
     </BasicTable>
-    <UsdtModal @register="registerModal" @success="handleSuccess" />
+    <BannerModal @register="registerModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -58,25 +55,25 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   // import Icon from '/@/components/Icon/index';
   import { Image, Switch } from 'ant-design-vue';
-  import { getUsdtListApi, DelUsdApi, RefreshUsdApi, EditUsdApi } from '/@/api/page';
+  import { getBannerListApi, DelBannerApi, EditBannerApi } from '/@/api/page';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
-  import UsdtModal from './UsdtModal.vue';
+  import BannerModal from './BannerModal.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useI18n } from '/@/hooks/web/useI18n';
-  import { columns, searchFormSchema } from './usdt.data';
+  import { columns, searchFormSchema } from './banner.data';
 
   export default defineComponent({
-    name: 'USDTPage',
-    components: { BasicTable, PageWrapper, UsdtModal, TableAction, Image, Switch },
+    name: 'BannerPage',
+    components: { BasicTable, PageWrapper, BannerModal, TableAction, Image, Switch },
     setup() {
       const { t } = useI18n();
       const [registerModal, { openModal }] = useModal();
       const { createMessage } = useMessage();
       const searchInfo = reactive<Recordable>({});
       const [registerTable, { reload, setLoading }] = useTable({
-        title: 'USDT钱包管理',
-        api: getUsdtListApi,
+        title: 'Banner管理',
+        api: getBannerListApi,
         rowKey: 'id',
         columns,
         formConfig: {
@@ -87,10 +84,6 @@
         useSearchForm: true,
         showTableSetting: true,
         bordered: true,
-        handleSearchInfoFn(info) {
-          console.log('handleSearchInfoFn', info);
-          return info;
-        },
         actionColumn: {
           width: 200,
           title: '操作',
@@ -116,7 +109,7 @@
 
       function handleDelete(record: Recordable) {
         console.log(record);
-        DelUsdApi({ walletId: record.id }).then(() => {
+        DelBannerApi({ bannerId: record.id }).then(() => {
           createMessage.success(t('layout.setting.operatingTitle'));
           reload();
         });
@@ -132,22 +125,10 @@
         reload();
       }
 
-      async function updateBalance() {
-        try {
-          balanceLoading.value = true;
-          await RefreshUsdApi();
-          createMessage.success(t('layout.setting.operatingTitle'));
-          await reload();
-        } catch (error) {
-        } finally {
-          balanceLoading.value = false;
-        }
-      }
-
       async function handleStateEdit(record: Recordable) {
         try {
           setLoading(true);
-          await EditUsdApi({ walletId: record.id, state: record.state === 1 ? 0 : 1 });
+          await EditBannerApi({ bannerId: record.id, state: record.state === 1 ? 0 : 1 });
           reload();
         } catch (error) {
         } finally {
@@ -164,7 +145,6 @@
         handleDelete,
         handleSuccess,
         handleSelect,
-        updateBalance,
         handleStateEdit,
         searchInfo,
         balanceLoading,
@@ -172,3 +152,4 @@
     },
   });
 </script>
+./banner.data

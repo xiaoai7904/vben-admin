@@ -11,6 +11,8 @@ export const columns: BasicColumn[] = [
   {
     title: '钱包地址',
     dataIndex: 'addr',
+    width: 350,
+    showSorterTooltip: true,
   },
   {
     title: '钱包二维码',

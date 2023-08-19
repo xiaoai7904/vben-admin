@@ -4,6 +4,8 @@ enum Api {
   PlayerRecharge = '/back/users/list_recharge',
   UpdatePlayerWallet = '/back/users/update_wallet',
   updatePlayerStatus = '/back/users/update_state',
+  bindGoogle = '/back/google/bind',
+  createGoogleQr = '/back/google/create',
 }
 
 export const getPlayerListApi = (params) => {
@@ -20,4 +22,12 @@ export const updatePlayerWalletApi = (params) => {
 
 export const updatePlayerStatusApi = (params) => {
   return defHttp.post({ url: Api.updatePlayerStatus, params });
+};
+
+export const BindGoogleApi = (params) => {
+  return defHttp.post({ url: Api.bindGoogle, params });
+};
+
+export const CreateGoogleQrApi = (params) => {
+  return defHttp.post({ url: Api.createGoogleQr, params });
 };

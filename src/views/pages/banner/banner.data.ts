@@ -5,27 +5,23 @@ import { uploadApi } from '/@/api/sys/upload';
 
 export const columns: BasicColumn[] = [
   {
-    title: '钱包名称',
-    dataIndex: 'name',
+    title: '名称',
+    dataIndex: 'title',
   },
   {
-    title: '钱包地址',
-    dataIndex: 'addr',
+    title: '图片',
+    dataIndex: 'image',
   },
   {
-    title: '钱包二维码',
-    dataIndex: 'img',
-  },
-  {
-    title: '余额',
-    dataIndex: 'balance',
+    title: '链接',
+    dataIndex: 'linkurl',
   },
   {
     title: '状态',
     dataIndex: 'state',
   },
   {
-    title: '充值时间',
+    title: '创建时间',
     dataIndex: 'createTime',
     width: 180,
   },
@@ -33,8 +29,8 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'walletAddr',
-    label: '钱包地址',
+    field: 'title',
+    label: '名称',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -42,7 +38,7 @@ export const searchFormSchema: FormSchema[] = [
 
 export const UsdtModalFormSchema: FormSchema[] = [
   {
-    field: 'name',
+    field: 'title',
     label: '名称',
     component: 'Input',
     rules: [
@@ -53,18 +49,29 @@ export const UsdtModalFormSchema: FormSchema[] = [
     ],
   },
   {
-    field: 'addr',
-    label: '地址',
+    field: 'linkurl',
+    label: '跳转链接',
     component: 'Input',
     rules: [
       {
         required: true,
-        message: '请输入地址',
+        message: '请输入跳转链接',
       },
     ],
   },
   {
-    field: 'imgName',
+    field: 'sort',
+    label: '排序',
+    component: 'Input',
+    rules: [
+      {
+        required: true,
+        message: '请输入排序',
+      },
+    ],
+  },
+  {
+    field: 'image',
     label: '图片',
     component: 'Upload',
     // rules: [

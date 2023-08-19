@@ -4,6 +4,8 @@ enum Api {
   ResetMerchantAccount = '/back/account/reset_account',
   DelAccount = '/back/account/del',
   AddAccount = '/back/account/register',
+  Rate = '/back/account/rate_get',
+  EditRate = '/back/account/rate_edit',
 }
 
 export const getMerchantListApi = (params) => {
@@ -20,4 +22,12 @@ export const DelMerchantApi = (params) => {
 
 export const AddMerchantApi = (params) => {
   return defHttp.post({ url: Api.AddAccount, params });
+};
+
+export const RateMerchantApi = (params) => {
+  return defHttp.post({ url: Api.Rate, params });
+};
+
+export const EditRateMerchantApi = (params) => {
+  return defHttp.post({ url: Api.EditRate, params });
 };

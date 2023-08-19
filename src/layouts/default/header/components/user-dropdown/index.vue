@@ -11,13 +11,14 @@
 
     <template #overlay>
       <Menu @click="handleMenuClick">
-        <MenuItem
+        <!-- <MenuItem
           key="doc"
           :text="t('layout.header.dropdownItemDoc')"
           icon="ion:document-text-outline"
           v-if="getShowDoc"
         />
-        <MenuDivider v-if="getShowDoc" />
+        <MenuDivider v-if="getShowDoc" /> -->
+        <MenuItem key="google" text="google验证码" icon="ion:lock-closed-outline" />
         <MenuItem
           v-if="getUseLockPage"
           key="lock"
@@ -33,6 +34,7 @@
     </template>
   </Dropdown>
   <LockAction @register="register" />
+  <GoogleModal @register="registerGoogleModal" />
 </template>
 <script lang="ts">
   // components
@@ -54,22 +56,24 @@
   import { openWindow } from '/@/utils';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
-
-  type MenuEvent = 'logout' | 'doc' | 'lock';
+  import GoogleModal from './GoogleModal.vue';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'google';
 
   export default defineComponent({
     name: 'UserDropdown',
     components: {
+      GoogleModal,
       Dropdown,
       Menu,
       MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
-      MenuDivider: Menu.Divider,
+      // MenuDivider: Menu.Divider,
       LockAction: createAsyncComponent(() => import('../lock/LockModal.vue')),
     },
     props: {
       theme: propTypes.oneOf(['dark', 'light']),
     },
     setup() {
+      const [registerGoogleModal, { openModal: openGooleModal }] = useModal();
       const { prefixCls } = useDesign('header-user-dropdown');
       const { t } = useI18n();
       const { getShowDoc, getUseLockPage } = useHeaderSetting();
@@ -107,6 +111,11 @@
           case 'lock':
             handleLock();
             break;
+          case 'google':
+            openGooleModal(true, {
+              isUpdate: true,
+            });
+            break;
         }
       }
 
@@ -118,6 +127,7 @@
         getShowDoc,
         register,
         getUseLockPage,
+        registerGoogleModal,
       };
     },
   });
