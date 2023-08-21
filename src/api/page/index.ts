@@ -8,3 +8,4 @@ export * from './playerInr';
 export * from './playerUsdt';
 export * from './settingConfig';
 export * from './banner';
+export * from './agent';

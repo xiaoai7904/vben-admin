@@ -154,6 +154,27 @@ const pageRouter: AppRouteModule[] = [
     ],
   },
   {
+    path: '/agent',
+    name: 'Agent',
+    component: LAYOUT,
+    meta: {
+      orderNo: 10000,
+      icon: 'ant-design:usergroup-add-outlined',
+      title: '代理分润管理',
+      roles: [1, 2] as any,
+    },
+    children: [
+      {
+        path: '/agent-page',
+        name: 'AgentPage',
+        meta: {
+          title: '代理分润管理',
+        },
+        component: () => import('/@/views/pages/agent/Agent.vue'),
+      },
+    ],
+  },
+  {
     path: '/banner',
     name: 'Banner',
     component: LAYOUT,
