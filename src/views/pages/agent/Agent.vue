@@ -40,7 +40,7 @@
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, reactive } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   // import Icon from '/@/components/Icon/index';
   import { getAgentListApi, DelAgentApi } from '/@/api/page';
