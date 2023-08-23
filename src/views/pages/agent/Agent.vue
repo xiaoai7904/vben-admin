@@ -9,11 +9,6 @@
           <TableAction
             :actions="[
               {
-                icon: 'ant-design:credit-card-outlined',
-                label: '收益记录',
-                onClick: handleRevenueRecord.bind(null, record),
-              },
-              {
                 icon: 'clarity:note-edit-line',
                 label: '编辑',
                 tooltip: '编辑',
@@ -36,7 +31,6 @@
       </template>
     </BasicTable>
     <AgentModal @register="registerModal" @success="handleSuccess" />
-    <AgentRevenueModal @register="registerRevenueModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -47,18 +41,16 @@
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
   import AgentModal from './AgentModal.vue';
-  import AgentRevenueModal from './AgentRevenueModal.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { columns, searchFormSchema } from './agent.data';
 
   export default defineComponent({
     name: 'USDTPage',
-    components: { BasicTable, PageWrapper, AgentModal, AgentRevenueModal, TableAction },
+    components: { BasicTable, PageWrapper, AgentModal, TableAction },
     setup() {
       const { t } = useI18n();
       const [registerModal, { openModal }] = useModal();
-      const [registerRevenueModal, { openModal: openRevenueModal }] = useModal();
       const { createMessage } = useMessage();
       const searchInfo = reactive<Recordable>({});
       const [registerTable, { reload }] = useTable({
@@ -75,7 +67,7 @@
         showTableSetting: true,
         bordered: true,
         actionColumn: {
-          width: 280,
+          width: 220,
           title: '操作',
           dataIndex: 'action',
           // slots: { customRender: 'action' },
@@ -110,13 +102,6 @@
         reload();
       }
 
-      async function handleRevenueRecord(record: Recordable) {
-        openRevenueModal(true, {
-          record,
-          isUpdate: false,
-        });
-      }
-
       return {
         registerTable,
         registerModal,
@@ -124,9 +109,7 @@
         handleEdit,
         handleDelete,
         handleSuccess,
-        handleRevenueRecord,
         balanceLoading,
-        registerRevenueModal,
         searchInfo,
       };
     },

@@ -8,7 +8,7 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicTable, useTable } from '/@/components/Table';
   import { AgentRevenueApi } from '/@/api/page';
-  import { AgentRevenueModalColums } from './agent.data';
+  import { AgentRevenueModalColums } from './player.data';
 
   export default defineComponent({
     name: 'PlayerRechargeModal',

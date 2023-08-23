@@ -20,6 +20,11 @@
                 label: '资金变更',
                 onClick: handleFundsChangeEdit.bind(null, record),
               },
+              {
+                icon: 'ant-design:transaction-outlined',
+                label: '收益明显',
+                onClick: handleRevenueRecord.bind(null, record),
+              },
             ]"
           />
         </template>
@@ -30,6 +35,7 @@
       @register="registerFundsChangeModal"
       @success="handleFundsChangeSuccess"
     />
+    <AgentRevenueModal @register="registerRevenueModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -42,6 +48,7 @@
   import { useModal } from '/@/components/Modal';
   import PlayerRechargeModal from './PlayerRechargeModal.vue';
   import PlayerFundsChangeModal from './PlayerFundsChangeModal.vue';
+  import AgentRevenueModal from './AgentRevenueModal.vue';
   import { columns, searchFormSchema } from './player.data';
 
   export default defineComponent({
@@ -52,11 +59,13 @@
       TableAction,
       PlayerRechargeModal,
       PlayerFundsChangeModal,
+      AgentRevenueModal,
       Switch,
     },
     setup() {
       const [registerModal, { openModal }] = useModal();
       const [registerFundsChangeModal, { openModal: openFundsChangeModal }] = useModal();
+      const [registerRevenueModal, { openModal: openRevenueModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
       const [registerTable, { reload, setLoading }] = useTable({
         title: '玩家列表',
@@ -73,7 +82,7 @@
         showTableSetting: true,
         bordered: true,
         actionColumn: {
-          width: 220,
+          width: 320,
           title: '操作',
           dataIndex: 'action',
           // slots: { customRender: 'action' },
@@ -119,6 +128,13 @@
         console.log(record);
       }
 
+      async function handleRevenueRecord(record: Recordable) {
+        openRevenueModal(true, {
+          record,
+          isUpdate: false,
+        });
+      }
+
       return {
         registerTable,
         registerModal,
@@ -129,6 +145,8 @@
         handleFundsChangeEdit,
         handleFundsChangeSuccess,
         handleStateEdit,
+        registerRevenueModal,
+        handleRevenueRecord,
         searchInfo,
       };
     },

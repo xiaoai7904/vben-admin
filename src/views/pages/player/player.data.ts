@@ -58,3 +58,53 @@ export const rechargeColumns: BasicColumn[] = [
     width: 180,
   },
 ];
+
+export const AgentRevenueModalColums: BasicColumn[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+  },
+  {
+    title: '平台订单号',
+    dataIndex: 'pOrderId',
+    width: 200,
+  },
+  {
+    title: '用户ID',
+    dataIndex: 'userId',
+    width: 200,
+  },
+  {
+    title: '手机号',
+    dataIndex: 'userPhone',
+  },
+  {
+    title: '子用户ID',
+    dataIndex: 'childUserId',
+  },
+  {
+    title: '子用户手机号',
+    dataIndex: 'childUserPhone',
+  },
+  {
+    title: '金额',
+    dataIndex: 'amount',
+  },
+  {
+    title: '收益',
+    dataIndex: 'profit',
+  },
+  {
+    title: '等级',
+    dataIndex: 'vip',
+  },
+  {
+    title: '点位',
+    dataIndex: 'rate',
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    width: 180,
+  },
+];
