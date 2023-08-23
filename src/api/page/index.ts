@@ -9,3 +9,4 @@ export * from './playerUsdt';
 export * from './settingConfig';
 export * from './banner';
 export * from './agent';
+export * from './customer';

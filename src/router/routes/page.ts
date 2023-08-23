@@ -182,7 +182,7 @@ const pageRouter: AppRouteModule[] = [
       orderNo: 10000,
       icon: 'ant-design:picture-outlined',
       title: 'Banner设置',
-      roles: [1] as any,
+      roles: [1, 2] as any,
     },
     children: [
       {
@@ -192,6 +192,27 @@ const pageRouter: AppRouteModule[] = [
           title: 'Banner设置',
         },
         component: () => import('/@/views/pages/banner/Banner.vue'),
+      },
+    ],
+  },
+  {
+    path: '/customer',
+    name: 'Customer',
+    component: LAYOUT,
+    meta: {
+      orderNo: 10000,
+      icon: 'ant-design:comment-outlined',
+      title: '客服设置',
+      roles: [1, 2] as any,
+    },
+    children: [
+      {
+        path: '/customer-page',
+        name: 'CustomerPage',
+        meta: {
+          title: '客服设置',
+        },
+        component: () => import('/@/views/pages/customer/Customer.vue'),
       },
     ],
   },
