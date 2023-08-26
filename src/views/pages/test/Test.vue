@@ -2,16 +2,19 @@
   <PageWrapper title="测试页面" contentFullHeight>
     <CollapseContainer title="商户收款下单">
       <BasicForm @register="register" />
+      <CodeEditor v-model:value="reusltJson1" mode="application/json" />
     </CollapseContainer>
     <CollapseContainer title="商户付款下单">
       <BasicForm @register="register1" />
+      <CodeEditor v-model:value="reusltJson2" mode="application/json" />
     </CollapseContainer>
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, ref } from 'vue';
   import { CollapseContainer } from '/@/components/Container/index';
   import { BasicForm, useForm, FormSchema } from '/@/components/Form';
+  import { CodeEditor } from '/@/components/CodeEditor';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { PageWrapper } from '/@/components/Page';
   import { OrderPayTestApi, orderDrawTestApi } from '/@/api/page';
@@ -98,9 +101,13 @@
 
   export default defineComponent({
     name: 'TestPage',
-    components: { BasicForm, PageWrapper, CollapseContainer },
+    components: { BasicForm, PageWrapper, CollapseContainer, CodeEditor },
     setup() {
       const { createMessage } = useMessage();
+
+      const reusltJson1 = ref('{}');
+      const reusltJson2 = ref('{}');
+
       const [register, { validate, setProps }] = useForm({
         schemas: schemas,
         labelCol: {
@@ -139,7 +146,9 @@
               loading: true,
             },
           });
-          await OrderPayTestApi(values);
+          const data = await OrderPayTestApi(values);
+          console.log(data);
+          reusltJson1.value = JSON.stringify(data);
           setProps({
             submitButtonOptions: {
               loading: false,
@@ -158,7 +167,9 @@
               loading: true,
             },
           });
-          await orderDrawTestApi(values);
+          const data = await orderDrawTestApi(values);
+          console.log(data);
+          reusltJson2.value = JSON.stringify(data);
           setProps1({
             submitButtonOptions: {
               loading: false,
@@ -171,6 +182,8 @@
       return {
         register,
         register1,
+        reusltJson1,
+        reusltJson2,
       };
     },
   });
