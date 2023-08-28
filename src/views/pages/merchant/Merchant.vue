@@ -20,6 +20,12 @@
             :actions="[
               {
                 icon: 'clarity:info-standard-line',
+                tooltip: '调整资金',
+                label: '调整资金',
+                onClick: handleMerchantAmount.bind(null, record),
+              },
+              {
+                icon: 'clarity:info-standard-line',
                 tooltip: '商户费率',
                 label: '商户费率',
                 onClick: handleMerchantView.bind(null, record),
@@ -51,6 +57,7 @@
     </BasicTable>
     <MerchantModal @register="registerModal" @success="handleSuccess" />
     <MerchantRateModal @register="registerRateModal" @success="handleSuccess" />
+    <MerchantAmountChangeModal @register="registerAmountChangeModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -63,14 +70,23 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import MerchantModal from './MerchantModal.vue';
   import MerchantRateModal from './MerchantRetaModal.vue';
+  import MerchantAmountChangeModal from './MerchantAmountChangeModal.vue';
   import { columns, searchFormSchema } from './merchant.data';
 
   export default defineComponent({
     name: 'MerchantPage',
-    components: { BasicTable, PageWrapper, MerchantModal, MerchantRateModal, TableAction },
+    components: {
+      BasicTable,
+      PageWrapper,
+      MerchantModal,
+      MerchantRateModal,
+      TableAction,
+      MerchantAmountChangeModal,
+    },
     setup() {
       const { t } = useI18n();
       const [registerModal, { openModal }] = useModal();
+      const [registerAmountChangeModal, { openModal: openAmountChangeModal }] = useModal();
       const [registerRateModal, { openModal: openRataModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
       const { createMessage } = useMessage();
@@ -89,7 +105,7 @@
         showTableSetting: true,
         bordered: true,
         actionColumn: {
-          width: 350,
+          width: 400,
           title: '操作',
           dataIndex: 'action',
         },
@@ -142,6 +158,13 @@
         });
       }
 
+      function handleMerchantAmount(record: Recordable) {
+        openAmountChangeModal(true, {
+          record,
+          isUpdate: false,
+        });
+      }
+
       return {
         registerTable,
         registerModal,
@@ -152,6 +175,8 @@
         handleSelect,
         handleMerchantView,
         registerRateModal,
+        registerAmountChangeModal,
+        handleMerchantAmount,
         searchInfo,
       };
     },

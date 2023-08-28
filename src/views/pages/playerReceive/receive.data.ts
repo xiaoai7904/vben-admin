@@ -74,6 +74,18 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 8 },
   },
   {
+    field: 'phone',
+    label: '手机号',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
+    field: 'utr',
+    label: 'UTR',
+    component: 'Input',
+    colProps: { span: 8 },
+  },
+  {
     field: 'orderState',
     label: '订单状态',
     component: 'Select',

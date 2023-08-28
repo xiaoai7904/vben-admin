@@ -25,6 +25,15 @@
                 label: '收益明显',
                 onClick: handleRevenueRecord.bind(null, record),
               },
+              {
+                icon: 'ant-design:reload-outlined',
+                label: '重置玩家密码',
+                popConfirm: {
+                  title: '是否确认进行该操作',
+                  placement: 'left',
+                  confirm: handleRestEdit.bind(null, record),
+                },
+              },
             ]"
           />
         </template>
@@ -49,6 +58,8 @@
   import PlayerRechargeModal from './PlayerRechargeModal.vue';
   import PlayerFundsChangeModal from './PlayerFundsChangeModal.vue';
   import AgentRevenueModal from './AgentRevenueModal.vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from '/@/hooks/web/useI18n';
   import { columns, searchFormSchema } from './player.data';
 
   export default defineComponent({
@@ -63,6 +74,8 @@
       Switch,
     },
     setup() {
+      const { t } = useI18n();
+      const { createMessage } = useMessage();
       const [registerModal, { openModal }] = useModal();
       const [registerFundsChangeModal, { openModal: openFundsChangeModal }] = useModal();
       const [registerRevenueModal, { openModal: openRevenueModal }] = useModal();
@@ -82,7 +95,7 @@
         showTableSetting: true,
         bordered: true,
         actionColumn: {
-          width: 320,
+          width: 420,
           title: '操作',
           dataIndex: 'action',
           // slots: { customRender: 'action' },
@@ -135,6 +148,19 @@
         });
       }
 
+      function handleRestEdit(record: Recordable) {
+        try {
+          console.log(record);
+          setLoading(true);
+          // await ResetMerchantApi({ accountId: record.id });
+          createMessage.success(t('layout.setting.operatingTitle'));
+          reload();
+        } catch (error) {
+        } finally {
+          setLoading(false);
+        }
+      }
+
       return {
         registerTable,
         registerModal,
@@ -147,6 +173,7 @@
         handleStateEdit,
         registerRevenueModal,
         handleRevenueRecord,
+        handleRestEdit,
         searchInfo,
       };
     },

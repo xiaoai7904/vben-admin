@@ -120,3 +120,42 @@ export const InfoModalFormSchema: FormSchema[] = [
     // ],
   },
 ];
+
+export const AmountModalFormSchema: FormSchema[] = [
+  {
+    field: 'type',
+    label: '操作类型',
+    component: 'Select',
+    rules: [
+      {
+        required: true,
+        message: '请选择操作类型',
+      },
+    ],
+    componentProps: {
+      options: [
+        {
+          label: '操作金额',
+          value: '1',
+          key: '1',
+        },
+        {
+          label: '冻结金额',
+          value: '2',
+          key: '2',
+        },
+      ],
+    },
+  },
+  {
+    field: 'amount',
+    label: '金额',
+    component: 'Input',
+    rules: [
+      {
+        required: true,
+        message: '请输入金额',
+      },
+    ],
+  },
+];
