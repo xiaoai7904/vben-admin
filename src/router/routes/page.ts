@@ -235,6 +235,14 @@ const pageRouter: AppRouteModule[] = [
         },
         component: () => import('/@/views/pages/setting/Setting.vue'),
       },
+      {
+        path: '/test-page',
+        name: 'TestPage',
+        meta: {
+          title: '测试页面',
+        },
+        component: () => import('/@/views/pages/test/Test.vue'),
+      },
     ],
   },
 ];

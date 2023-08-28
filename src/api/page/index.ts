@@ -10,3 +10,4 @@ export * from './settingConfig';
 export * from './banner';
 export * from './agent';
 export * from './customer';
+export * from './test';

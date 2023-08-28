@@ -19,6 +19,7 @@ import { joinTimestamp, formatRequestDate } from './helper';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 import axios from 'axios';
+import { encryptByMd5 } from '/@/utils/cipher';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
@@ -162,6 +163,32 @@ const transform: AxiosTransform = {
       (config as Recordable).headers['X-API-TOKEN'] = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
+    }
+
+    // 特殊处理测试API
+    if (['/api/order/pay', '/api/order/draw'].includes(config.url as string)) {
+      const testKey = import.meta.env.VITE_API_TEST_KEY;
+      const targets: any[] = [];
+      Object.keys(config.data)
+        .sort()
+        .forEach((key: string) => {
+          const value = config.data[key];
+          if (value && !['sign'].includes(key)) {
+            if (typeof value === 'object') {
+              targets.push(`${key}=${JSON.stringify(value)}`);
+            } else {
+              targets.push(`${key}=${value}`);
+            }
+          }
+        });
+      let signStr = targets.join('&');
+      signStr = signStr + '&key=' + testKey;
+      console.log(`签名字符串:${signStr}`);
+      const sign = encryptByMd5(signStr).toString();
+      console.log(`签名VALUE:${sign}`);
+      config.data['sign'] = sign;
+
+      console.log(config.data);
     }
     return config;
   },
