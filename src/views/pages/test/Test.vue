@@ -154,7 +154,6 @@
               loading: false,
             },
           });
-          init();
           createMessage.success('请求成功');
         } catch (error) {}
       }
