@@ -6,6 +6,7 @@ enum Api {
   updatePlayerStatus = '/back/users/update_state',
   bindGoogle = '/back/google/bind',
   createGoogleQr = '/back/google/create',
+  resetPassword = '/back/users/reset_password',
 }
 
 export const getPlayerListApi = (params) => {
@@ -30,4 +31,8 @@ export const BindGoogleApi = (params) => {
 
 export const CreateGoogleQrApi = (params) => {
   return defHttp.post({ url: Api.createGoogleQr, params });
+};
+
+export const ResetPasswordApi = (params) => {
+  return defHttp.post({ url: Api.resetPassword, params });
 };

@@ -52,7 +52,7 @@
   import { Switch } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   // import Icon from '/@/components/Icon/index';
-  import { getPlayerListApi, updatePlayerStatusApi } from '/@/api/page';
+  import { getPlayerListApi, updatePlayerStatusApi, ResetPasswordApi } from '/@/api/page';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
   import PlayerRechargeModal from './PlayerRechargeModal.vue';
@@ -148,11 +148,11 @@
         });
       }
 
-      function handleRestEdit(record: Recordable) {
+      async function handleRestEdit(record: Recordable) {
         try {
           console.log(record);
           setLoading(true);
-          // await ResetMerchantApi({ accountId: record.id });
+          await ResetPasswordApi({ userId: record.id });
           createMessage.success(t('layout.setting.operatingTitle'));
           reload();
         } catch (error) {
