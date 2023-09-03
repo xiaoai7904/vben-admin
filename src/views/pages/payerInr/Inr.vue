@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
+  <PageWrapper dense contentFullHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #bodyCell="{ column, text }">
         <template v-if="column.key === 'orderState'">
